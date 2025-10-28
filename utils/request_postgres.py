@@ -115,7 +115,7 @@ def consulta_clientes_aliados(CODIGO_AGENTE = None,TIPO_DOCUMENTO_ASEGURADO = No
               "PORCENTAJE_COMISION",
               "PARENTESCO",
               "CODIGO_COBERTURA",
-              "DESCRIPCION_COBERTURA",
+              "DESCRIPCION_COBERTURA", 
               "NOMBRE_LOCALIDAD"
             FROM "api_backend"."paliados_clientes"
             WHERE {where_sql};
