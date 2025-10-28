@@ -20,10 +20,10 @@ def request_postgres(input_query, params):
     
     return data
 
-def consulta_clientes_aliados(CLAVE_AGENTE = None,TIPO_DOCUMENTO_ASEGURADO = None,NUMERO_DOCUMENTO_ASEGURADO = None,NOMBRE = None,ESTADO_POLIZA = None,CODIGO_PRODUCTO = None,numeroDocumentoSolicitante = None, tipoDocumentoSolicitante = None):
+def consulta_clientes_aliados(CODIGO_AGENTE = None,TIPO_DOCUMENTO_ASEGURADO = None,NUMERO_DOCUMENTO_ASEGURADO = None,NOMBRE = None,ESTADO_POLIZA = None,CODIGO_PRODUCTO = None,numeroDocumentoSolicitante = None, tipoDocumentoSolicitante = None):
     try:
         filtros = {
-            "CLAVE_AGENTE": CLAVE_AGENTE,
+            "CODIGO_AGENTE": CODIGO_AGENTE,
             "TIPO_DOCUMENTO_ASEGURADO": TIPO_DOCUMENTO_ASEGURADO,
             "NUMERO_DOCUMENTO_ASEGURADO": NUMERO_DOCUMENTO_ASEGURADO,
             "NOMBRE": NOMBRE,
@@ -38,7 +38,7 @@ def consulta_clientes_aliados(CLAVE_AGENTE = None,TIPO_DOCUMENTO_ASEGURADO = Non
         # Construir las cláusulas WHERE dinámicamente (solo si el filtro es enviado dentro del body)
         for key, value in filtros.items():
             if value is not None:
-                if key in ("CLAVE_AGENTE","NUMERO_DOCUMENTO_ASEGURADO","CODIGO_PRODUCTO"):
+                if key in ("CODIGO_AGENTE","NUMERO_DOCUMENTO_ASEGURADO","CODIGO_PRODUCTO"):
                     where_clauses.append(f'"{key}" = {value}')
                 elif key in ("NOMBRE"):
                     where_clauses.append(f'UPPER("{key}") LIKE UPPER(\'%{value}%\')')
@@ -59,7 +59,7 @@ def consulta_clientes_aliados(CLAVE_AGENTE = None,TIPO_DOCUMENTO_ASEGURADO = Non
         # Construir la consulta SQL
         query = f"""
             SELECT 
-              "CLAVE_AGENTE",
+              "CODIGO_AGENTE",
               "NOMBRE_AGENTE",
               "CODIGO_LOCALIDAD",
               "VALOR_IVA",
@@ -115,7 +115,8 @@ def consulta_clientes_aliados(CLAVE_AGENTE = None,TIPO_DOCUMENTO_ASEGURADO = Non
               "PORCENTAJE_COMISION",
               "PARENTESCO",
               "CODIGO_COBERTURA",
-              "DESCRIPCION_COBERTURA"
+              "DESCRIPCION_COBERTURA",
+              "NOMBRE_LOCALIDAD"
             FROM "api_backend"."paliados_clientes"
             WHERE {where_sql};
         """
@@ -131,7 +132,7 @@ def consulta_clientes_aliados(CLAVE_AGENTE = None,TIPO_DOCUMENTO_ASEGURADO = Non
         }
 
 def consulta_clientes_aliados_portal(
-    CLAVE_AGENTE=None,
+    CODIGO_AGENTE=None,
     TIPO_DOCUMENTO_ASEGURADO=None,
     NUMERO_DOCUMENTO_ASEGURADO=None,
     NOMBRE=None,
@@ -142,7 +143,7 @@ def consulta_clientes_aliados_portal(
 ):
     try:
         filtros = {
-            "CLAVE_AGENTE": CLAVE_AGENTE,
+            "CODIGO_AGENTE": CODIGO_AGENTE,
             "TIPO_DOCUMENTO_ASEGURADO": TIPO_DOCUMENTO_ASEGURADO,
             "NUMERO_DOCUMENTO_ASEGURADO": NUMERO_DOCUMENTO_ASEGURADO,
             "NOMBRE": NOMBRE,
@@ -155,7 +156,7 @@ def consulta_clientes_aliados_portal(
 
         for key, value in filtros.items():
             if value is not None:
-                if key in ("CLAVE_AGENTE", "NUMERO_DOCUMENTO_ASEGURADO", "CODIGO_PRODUCTO"):
+                if key in ("CODIGO_AGENTE", "NUMERO_DOCUMENTO_ASEGURADO", "CODIGO_PRODUCTO"):
                     where_clauses.append(f'"{key}" = {value}')
                 elif key in ("NOMBRE"):
                     where_clauses.append(f'UPPER("{key}") LIKE UPPER(\'%{value}%\')')
@@ -185,7 +186,7 @@ def consulta_clientes_aliados_portal(
         if pagina is None or registros_por_pagina is None:
             query = f"""
                 SELECT 
-                  "CLAVE_AGENTE",
+                  "CODIGO_AGENTE",
                   "TIPO_DOCUMENTO_ASEGURADO",
                   "NUMERO_DOCUMENTO_ASEGURADO",
                   "NOMBRE",
@@ -224,7 +225,8 @@ def consulta_clientes_aliados_portal(
                   "VIGENCIA_FIN_POLIZA_MADRE",
                   "PERIODICIDAD_PAGO",
                   "FORMA_PAGO",
-                  "CANAL_DE_DESCUENTO"
+                  "CANAL_DE_DESCUENTO",
+                  "NOMBRE_LOCALIDAD"
                 FROM "api_backend"."paliados_clientes"
                 WHERE {where_sql};
             """
@@ -233,7 +235,7 @@ def consulta_clientes_aliados_portal(
             limit = registros_por_pagina
             query = f"""
                 SELECT 
-                  "CLAVE_AGENTE",
+                  "CODIGO_AGENTE",
                   "TIPO_DOCUMENTO_ASEGURADO",
                   "NUMERO_DOCUMENTO_ASEGURADO",
                   "NOMBRE",
@@ -272,7 +274,8 @@ def consulta_clientes_aliados_portal(
                   "VIGENCIA_FIN_POLIZA_MADRE",
                   "PERIODICIDAD_PAGO",
                   "FORMA_PAGO",
-                  "CANAL_DE_DESCUENTO"
+                  "CANAL_DE_DESCUENTO",
+                  "NOMBRE_LOCALIDAD"
                 FROM "api_backend"."paliados_clientes"
                 WHERE {where_sql}
                 OFFSET {offset} LIMIT {limit};

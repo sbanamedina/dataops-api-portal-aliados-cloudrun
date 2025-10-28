@@ -63,7 +63,7 @@ async def api_consulta_afiliacion_empresa(body: dict):
     response = consulta_clientes_aliados(
         numeroDocumentoSolicitante=numeroDocumentoSolicitante,
         tipoDocumentoSolicitante=tipoDocumentoSolicitante,
-        CLAVE_AGENTE=codigo_agente,
+        CODIGO_AGENTE=codigo_agente,
         TIPO_DOCUMENTO_ASEGURADO=tipo_documento,
         NUMERO_DOCUMENTO_ASEGURADO=id_documento,
         NOMBRE=nombre,
@@ -94,7 +94,7 @@ async def api_consulta_portal_aliados(body: dict):
         registros_por_pagina = None
 
     response = consulta_clientes_aliados_portal(
-        CLAVE_AGENTE=codigo_agente,
+        CODIGO_AGENTE=codigo_agente,
         TIPO_DOCUMENTO_ASEGURADO=tipo_documento,
         NUMERO_DOCUMENTO_ASEGURADO=id_documento,
         NOMBRE=nombre,
