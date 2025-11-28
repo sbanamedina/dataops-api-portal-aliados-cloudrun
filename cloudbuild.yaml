@@ -46,6 +46,7 @@ steps:
         --service-account sb-xops-stage@sb-xops-stage.iam.gserviceaccount.com \
         --labels=billing-tag=ms-do-api-portal-aliados,vp=tecnologia,team=dataops,tipo=proyecto \
         --memory 4Gi \
+        --set-env-vars ENVIRONMENT=prod
 
 options:
   logging: CLOUD_LOGGING_ONLY

@@ -11,14 +11,26 @@ from google.cloud.sql.connector import Connector, IPTypes
 
 
 def get_credentials():
+    from google.cloud import secretmanager
+    import os, json
 
     client = secretmanager.SecretManagerServiceClient()
-    postgres_creds = 'projects/911414108629/secrets/postgres-db-stage-credentials-usr_dev_stage/versions/latest'
-    response = client.access_secret_version(name=postgres_creds).payload.data.decode("UTF-8")
-    
+
+    # Detectar el entorno
+    environment = os.getenv("ENVIRONMENT", "stage").lower()
+
+    if environment == "prod":
+        secret_name = "projects/263751840195/secrets/postgres-db-prod-credentials-api_dataops_user/versions/latest"
+    else:
+        secret_name = "projects/911414108629/secrets/postgres-db-stage-credentials-usr_dev_stage/versions/latest"
+
+    print(f"🔐 Conectando a base de datos: {environment.upper()}")
+
+    response = client.access_secret_version(name=secret_name).payload.data.decode("UTF-8")
     creds_dict = json.loads(response)
 
     return creds_dict
+
 
 def getEngine():
     
