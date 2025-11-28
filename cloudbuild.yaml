@@ -44,7 +44,7 @@ steps:
         --region "$(cat region.txt)" \
         --platform managed \
         --service-account sb-xops-stage@sb-xops-stage.iam.gserviceaccount.com \
-        --labels billing-tag=ms-do-api-portal-aliados, vp=tecnologia, team=dataops, tipo=proyecto \
+        --labels=billing-tag=ms-do-api-portal-aliados,vp=tecnologia,team=dataops,tipo=proyecto \
         --memory 4Gi \
 
 options:
